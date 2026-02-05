@@ -1,7 +1,7 @@
 ---
 title: "Plan de Estudio Semanal"
 description: "Cronograma detallado del Proyecto Integrador de Análisis de Datos con Python (18 Semanas)"
-position: 1
+position: 0
 ---
 
 # Plan de Estudio - Proyecto Integrador
