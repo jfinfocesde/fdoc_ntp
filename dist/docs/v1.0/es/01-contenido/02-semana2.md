@@ -4,6 +4,13 @@ description: "Introducción a Python"
 position: 2
 ---
 
+```video
+---
+src: "https://vimeo.com/1162191856?share=copy&fl=sv&fe=ci"
+title: "Semana 2 - Introducción a Python"
+---
+```
+
 Python es un lenguaje de programación de alto nivel, interpretado y de propósito general, creado por Guido van Rossum en 1989. Es conocido por su filosofía de diseño que enfatiza la legibilidad del código, utilizando una sintaxis limpia y expresiva.
 
 +++admonition
