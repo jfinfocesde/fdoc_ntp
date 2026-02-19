@@ -1,366 +1,316 @@
 ---
-title: "Semana 4 - Estructuras de Datos y Funciones"
-description: "Domina las colecciones de datos (Listas, Tuplas, Conjuntos, Diccionarios) y la modularización con Funciones en Python."
+title: "Semana 4 - Git: Control de Versiones"
+description: "Aprende a viajar en el tiempo con tu código. La guía definitiva de Git para principiantes."
 position: 4
 ---
 
-En esta semana profundizaremos en cómo organizar y manipular datos eficientemente en Python, y cómo estructurar tu código mediante funciones reutilizables.
+```video
+---
+src: "https://vimeo.com/1166221102?share=copy&fl=sv&fe=ci"
+title: "Git"
+---
+```
+
+Bienvenido al superpoder más importante de todo programador: **El Control del Tiempo**.
+
+En esta guía aprenderás **Git** desde cero. No hablaremos de GitHub todavía (eso es la nube), aquí nos centraremos en **Git**, la herramienta que vive en tu computadora y que te salvará la vida mil veces.
 
 +++cards
 ---
 columns: 2
 items:
-  - title: "Listas"
-    icon: "ListIcon"
-    content: "Colecciones ordenadas y modificables."
-    href: "#listas"
-  - title: "Tuplas"
-    icon: "LockIcon"
-    content: "Colecciones ordenadas e inmutables."
-    href: "#tuplas"
-  - title: "Conjuntos"
-    icon: "ArchiveIcon"
-    content: "Colecciones sin orden y sin duplicados."
-    href: "#conjuntos"
-  - title: "Diccionarios"
-    icon: "KeyIcon"
-    content: "Estructuras clave-valor para acceso rápido."
-    href: "#diccionarios"
-  - title: "Funciones"
-    icon: "CodeIcon"
-    content: "Bloques de código reutilizables."
-    href: "#funciones"
+  - title: "¿Qué es Git?"
+    icon: "GitBranchIcon"
+    content: "Entiende la máquina del tiempo."
+    href: "#que-es-git-y-por-que-usarlo"
+  - title: "Tu Identidad"
+    icon: "UserIcon"
+    content: "Configura quién eres para la historia."
+    href: "#configuracion-inicial-tu-identidad"
+  - title: "El Flujo de Trabajo"
+    icon: "RefreshIcon"
+    content: "Init, Add, Commit: El ciclo de la vida."
+    href: "#el-ciclo-de-vida-tus-primeros-comandos"
+  - title: "Ramas (Multiverso)"
+    icon: "RepoForkedIcon"
+    content: "Crea universos paralelos para experimentar."
+    href: "#ramas-el-multiverso-del-codigo"
 ---
 +++
 
-```video
----
-src: "https://vimeo.com/1164222787?share=copy&fl=sv&fe=ci"
-title: "Estructuras de Datos y Funciones"
----
-```
+## ¿Qué es Git y Por Qué Usarlo?
 
-## Estructuras de datos - Colecciones en Python
+Imagina que estás escribiendo un documento muy importante. Seguramente has hecho esto:
 
-En Python, una colección es una estructura de datos que puede almacenar varios elementos. 
+- `tesis_final.docx`
+- `tesis_final_v2.docx`
+- `tesis_final_corregida.docx`
+- `tesis_final_ESTA_SI_ES.docx`
 
-+++admonition
+Esto es un caos. **Git soluciona esto.**
+
+Git es un **Sistema de Control de Versiones Distribuido**. Piensa en él como una **cámara fotográfica mágica** para tu código.
+Cada vez que terminas una tarea importante, tomas una "foto" (llamada **Commit**) de cómo se ven todos tus archivos en ese momento.
+
+### ¿Por qué lo necesitas?
+
+1.  **Puntos de Guardado**: Puedes volver a cualquier punto del pasado. ¿Borraste algo por error y guardaste? Con Git, puedes "viajar en el tiempo" y recuperarlo.
+2.  **Experimentación sin Miedo**: Puedes crear una "copia paralela" (rama) de tu proyecto, romper todo lo que quieras probando una idea loca, y si no funciona, simplemente borras esa línea temporal y vuelves a la original intacta.
+3.  **Historia**: Sabes exactamente **quién** hizo qué cambio, **cuándo** y **por qué**.
+
 ---
-type: note
-title: "Tipos de Colecciones"
----
-- **Listas**: Ordenadas, modificables, permiten duplicados.
-- **Tuplas**: Ordenadas, **inmutables**, permiten duplicados.
-- **Conjuntos**: **No ordenados**, no indexados, **sin duplicados**.
-- **Diccionarios**: Pares clave-valor, modificables (v3.7+ ordenados por inserción).
+
+## Conceptos Clave (Antes de los Comandos)
+
+Para entender Git, debes visualizar tres áreas donde vive tu código:
+
+1.  **Directorio de Trabajo (Working Directory)**: Es tu carpeta actual, donde estás escribiendo código y guardando archivos. Es el "Presente".
+2.  **Área de Preparación (Staging Area)**: Es una zona intermedia. Aquí colocas los archivos que *quieres* incluir en tu próxima foto. Es como "preparar a los modelos" antes de la foto.
+3.  **El Repositorio (.git)**: Es el álbum de fotos. Aquí se guardan permanentemente los cambios confirmados (Commits).
+
++++mermaid
+graph LR
+    A[Directorio de Trabajo] -- git add --> B[Staging Area]
+    B -- git commit --> C[Repositorio .git]
+    C -- git checkout --> A
 +++
 
-### Listas
+---
 
-Una lista es una colección ordenada y modificable. Permite almacenar elementos de diferentes tipos.
+## Configuración Inicial: Tu Identidad
 
-```python
-# Creación y acceso
-my_list = [1, 2, 3, 'cuatro', 'cinco']
-print(my_list[0])  # Salida: 1
+Antes de empezar, Git necesita saber quién eres. Esto es vital porque cada "foto" (commit) llevará tu firma.
+
+Abre tu terminal (Git Bash, PowerShell o Terminal) y ejecuta **una sola vez**:
+
+```bash
+# Configura tu nombre (aparecerá en el historial)
+git config --global user.name "Tu Nombre Completo"
+
+# Configura tu correo (el mismo que usarás luego en GitHub)
+git config --global user.email "tu_email@ejemplo.com"
 ```
 
 +++admonition
 ---
 type: tip
-title: "Métodos Útiles"
+title: "Verifica tu configuración"
 ---
-Las listas tienen métodos poderosos integrados:
-- `.append(x)`: Agrega al final.
-- `.insert(i, x)`: Inserta en posición `i`.
-- `.remove(x)`: Elimina el primer `x`.
-- `.pop([i])`: Elimina y devuelve el elemento en `i` (o el último).
-- `.sort()`: Ordena la lista in-situ.
+Puedes ver si guardaste bien tus datos escribiendo: `git config --list`
 +++
 
-**Ejemplo completo de operaciones:**
+---
 
-```python
-mylist = [1, 2, "tres", 4.5]
+## El Ciclo de Vida: Tus Primeros Comandos
 
-# Modificar
-mylist[2] = 3
-print(mylist) # [1, 2, 3, 4.5]
+Vamos a simular que empiezas un proyecto nuevo. Sigue estos pasos.
 
-# Agregar
-mylist.append(5)
+### 1. `git init` - El Big Bang
 
-# Eliminar
-del mylist[0] 
+Este comando crea un nuevo universo (repositorio) en tu carpeta actual.
+
+```bash
+# Navega a tu carpeta de proyecto
+cd mi-proyecto-web
+
+# Inicializa Git
+git init
 ```
 
-#### Ejercicios de Listas
+*Resultado*: Se crea una carpeta oculta `.git`. Ahora Git está vigilando esta carpeta.
 
-1. **Números Pares**: Filtrar una lista para obtener solo los pares.
+### 2. `git status` - El Radar
 
-```python
-def numeros_pares(lista):
-    return [num for num in lista if num % 2 == 0]
+Este es el comando que usarás **todo el tiempo**. Te dice en qué estado están tus archivos.
 
-print(numeros_pares([1, 2, 3, 4, 5, 6])) # [2, 4, 6]
+```bash
+git status
 ```
 
-#### Iterando Listas
+Git te dirá algo como "Untracked files" (archivos que no está vigilando) o "Changes not staged for commit" (archivos modificados pero no preparados).
 
-+++tabs
----[tab title="Bucle For" lang="python"]---
-frutas = ["manzana", "banana", "cereza"]
-for fruta in frutas:
-    print(fruta)
----[tab title="Con índice (enumerate)" lang="python"]---
-frutas = ["manzana", "banana", "cereza"]
-for i, fruta in enumerate(frutas):
-    print(f"{i}: {fruta}")
----[tab title="Range y Len" lang="python"]---
-frutas = ["manzana", "banana", "cereza"]
-for i in range(len(frutas)):
-    print(frutas[i])
----[tab title="Comprensión de Listas" lang="python"]---
-# Crear una nueva lista de una sola línea
-cuadrados = [x**2 for x in range(10)]
-print(cuadrados)
----
-+++
+### 3. `git add` - Preparar la Foto
 
-### Tuplas
+Acabas de crear un archivo `index.html`. Git lo ve, pero no lo ha incluido en el "paquete" para la foto. Debes subirlo al **Staging Area**.
 
-Colecciones ordenadas e **inmutables**. Una vez creadas, no puedes cambiar su contenido.
+```bash
+# Agregar un archivo específico
+git add index.html
 
-+++comparison-table
----
-headers:
-  - "Característica"
-  - { text: "Lista", highlight: false }
-  - { text: "Tupla", highlight: true }
-rows:
-  - ["Sintaxis", "[]", "()"]
-  - ["Mutable", "Sí", "**No**"]
-  - ["Velocidad", "Normal", "Más rápida"]
-  - ["Uso", "Datos dinámicos", "Datos constantes protegidos"]
----
-+++
-
-```python
-mi_tupla = (1, 2, 'tres')
-# mi_tupla[0] = 5  # ¡Error! TypeError
+# Agregar TODOS los archivos modificados o nuevos (El más usado)
+git add .
 ```
 
-+++admonition
----
-type: warning
-title: "Inmutabilidad"
----
-Si intentas modificar una tupla (`t[0] = x`), Python lanzará un error. Si necesitas modificarla, primero debes convertirla a lista: `list(tupla)`, modificarla y volver a convertir: `tuple(lista)`.
-+++
+Ahora si haces `git status`, verás los archivos en verde. Están listos para la foto.
 
-#### Iterando Tuplas
+### 4. `git commit` - Tomar la Foto
 
-Las tuplas se iteran de forma idéntica a las listas.
+Ahora que el escenario está listo en el Staging Area, tomamos la foto definitiva y la guardamos en el álbum.
 
-```python
-mi_tupla = (10, 20, 30)
-for numero in mi_tupla:
-    print(numero)
+```bash
+git commit -m "Crear estructura inicial del proyecto"
 ```
 
-### Conjuntos
+**La regla de oro del mensaje (`-m`)**:
+El mensaje debe ser claro y descriptivo.
+- ❌ "arreglos"
+- ❌ "listo"
+- ✅ "Agregar barra de navegación y corregir colores del footer"
 
-Colecciones no ordenadas y **sin elementos duplicados**. Son ideales para operaciones de conjuntos matemáticos y eliminar duplicados.
+### 5. `git log` - El Libro de Historia
 
-```python
-# Eliminando duplicados automáticamente
-numeros = [1, 2, 2, 3, 4, 4, 5]
-conjunto_unicos = set(numeros)
-print(conjunto_unicos) # {1, 2, 3, 4, 5}
+¿Quieres ver todos los "puntos de guardado" que has hecho?
+
+```bash
+git log
 ```
 
-+++admonition
----
-type: info
-title: "Operaciones de Conjuntos"
----
-- **Unión (`|` o `.union()`)**: Elementos en A o B.
-- **Intersección (`&` o `.intersection()`)**: Elementos en A y B.
-- **Diferencia (`-` o `.difference()`)**: Elementos en A pero no en B.
-+++
+Te mostrará una lista con:
+- El código único del commit (Hash).
+- El autor.
+- La fecha.
+- El mensaje que escribiste.
 
-```python
-a = {1, 2, 3}
-b = {3, 4, 5}
+---
 
-print(a.union(b))        # {1, 2, 3, 4, 5}
-print(a.intersection(b)) # {3}
+## Ramas: El Multiverso del Código
+
+Las **Ramas (Branches)** son la característica más poderosa de Git.
+
+Imagina que tienes tu juego (código) funcionando perfecto en la "Línea Temporal Principal" (usualmente llamada `main` o `master`).
+Quieres intentar agregar un "Jefe Final" (una nueva función compleja), pero te da miedo romper el juego que ya funciona.
+
+**Solución:** Creas una rama llamada `jefe-final`. Es una copia exacta de tu realidad.
+Puedes hacer lo que quieras en esa rama. Si el juego se rompe, la rama `main` sigue intacta. Si funciona perfecto, puedes "fusionar" (Merge) la rama `jefe-final` con la `main`.
+
+### Comandos de Ramas
+
+#### Crear y ver ramas
+
+```bash
+# Listar todas las ramas (la que tiene * es la actual)
+git branch
+
+# Crear una nueva rama
+git branch nueva-funcionalidad
 ```
 
-#### Iterando Conjuntos
+#### Viajar entre ramas (`switch` o `checkout`)
 
-+++admonition
----
-type: note
-title: "Nota sobre el Orden"
----
-Recuerda que los conjuntos **no tienen orden garantizado**. Al iterarlos, los elementos pueden aparecer en cualquier secuencia.
-+++
+Para "moverte" a esa otra línea temporal:
 
-```python
-colores = {"rojo", "verde", "azul"}
-for color in colores:
-    print(color)
+```bash
+# La forma moderna (Git 2.23+)
+git switch nueva-funcionalidad
+
+# La forma clásica
+git checkout nueva-funcionalidad
 ```
 
-### Diccionarios
+#### Fusionar ramas (`merge`)
 
-Almacenan datos en pares `clave: valor`. El acceso es muy rápido a través de la clave.
+Supongamos que terminaste tu trabajo en `nueva-funcionalidad` y todo salió bien. Quieres traer esos cambios a `main`.
 
-```python
-usuario = {
-    'nombre': 'Juan',
-    'edad': 30,
-    'rol': 'admin'
-}
+1.  Primero, vuelve a la rama principal: `git switch main`
+2.  Luego, fusiona la otra rama hacia aquí:
 
-print(usuario['nombre']) # Juan
+```bash
+git merge nueva-funcionalidad
 ```
 
-#### Iterando Diccionarios
+¡Listo! Ahora `main` tiene todo lo nuevo.
 
-Existen varias formas de recorrer un diccionario:
-
-+++tabs
----[tab title="Por Claves" lang="python"]---
-# Itera sobre las claves (por defecto)
-for clave in usuario:
-    print(clave)
-# 'nombre', 'edad', 'rol'
----[tab title="Por Valores" lang="python"]---
-# Itera solo sobre los valores
-for valor in usuario.values():
-    print(valor)
-# 'Juan', 30, 'admin'
----[tab title="Por Ambos" lang="python"]---
-# Itera sobre clave y valor al tiempo
-for clave, valor in usuario.items():
-    print(f"{clave}: {valor}")
----[tab title="Comprensión de Diccionarios" lang="python"]---
-# Crear un nuevo diccionario transformando datos
-cuadrados = {x: x**2 for x in range(5)}
-print(cuadrados)
-# {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
 ---
-+++
 
-## Funciones
+## Viajando en el Tiempo: Deshacer Errores (Guía Completa)
 
-Las funciones permiten modularizar el código, haciéndolo más legible, reutilizable y fácil de mantener.
+Una de las preguntas más comunes es: *"¡Ayuda! Rompí todo, ¿cómo vuelvo atrás?"*. Aquí tienes los hechizos para cada situación.
 
-```python
-def saludar(nombre, saludo="Hola"):
-    """
-    Imprime un saludo personalizado.
-    Args:
-        nombre (str): Nombre de la persona.
-        saludo (str): Saludo opcional.
-    """
-    return f"{saludo}, {nombre}!"
+### Nivel 1: "Aún no he guardado nada"
+Escenario: Modificaste `style.css` y quedó horrible. No has hecho `git add` ni `git commit`. Quieres que el archivo vuelva a como estaba.
 
-print(saludar("Ana"))            # Hola, Ana!
-print(saludar("Carlos", "Buen día")) # Buen día, Carlos!
+```bash
+# Comando moderno (Git 2.23+)
+git restore style.css
+
+# Comando clásico
+git checkout -- style.css
 ```
 
-### Variables Globales vs Locales
+### Nivel 2: "Ya hice git add"
+Escenario: Hiciste `git add .` pero te diste cuenta de que subiste un archivo que no debías. Quieres sacarlo del "Staging Area" pero no borrar tus cambios.
 
-+++admonition
+```bash
+# Sacar del escenario (Unstage)
+git restore --staged style.css
+```
+
+### Nivel 3: "El último commit quedó mal"
+Escenario: Hiciste commit pero olvidaste un archivo, o escribiste mal el mensaje "arreglar bug" y querías poner "Arreglar bug de login".
+
+```bash
+# 1. Agrega los cambios olvidados (si los hay)
+git add archivo_olvidado.js
+
+# 2. Reescribe el último commit
+git commit --amend -m "Nuevo mensaje corregido"
+```
+*Esto no crea un nuevo commit, sino que edita el anterior.*
+
+### Nivel 4: "Quiero volver al pasado" (Reset)
+Escenario: Los últimos 2 commits son un desastre total. Quieres borrar esa línea de tiempo y volver a como estaba todo hace 2 días.
+
+⚠️ **CUIDADO**: `git reset` es poderoso.
+
+**Opción A: Reset Suave (Soft)**
+Vuelve al pasado, pero **mantiene tus cambios** en tu carpeta para que los arregles.
+```bash
+# Retroceder 1 commit pero mantener cambios
+git reset --soft HEAD~1
+```
+
+**Opción B: Reset Fuerte (Hard)**
+Vuelve al pasado y **destruye** todo lo que hiciste después. Es como si nunca hubiera pasado.
+```bash
+# Retroceder 1 commit y borrar todo
+git reset --hard HEAD~1
+```
+
+### Nivel 5: "Quiero deshacer algo público" (Revert)
+Escenario: Ya subiste el código a la nube (GitHub). Si haces `reset`, romperás el código de tus compañeros.
+**Solución**: Crear un *nuevo* commit que haga exactamente lo contrario al commit malo.
+
+```bash
+# Crea un antídoto para el último commit
+git revert HEAD
+```
+
 ---
-type: danger
-title: "Uso de 'global'"
+
+## Resumen de Comandos (Tu "Cheat Sheet")
+
+Guarda esta tabla cerca, la usarás mucho.
+
+| Comando | Descripción | Analogía |
+| :--- | :--- | :--- |
+| `git init` | Crea un repositorio en la carpeta actual. | Fundar una nueva ciudad. |
+| `git clone [url]` | Copia un repositorio de la nube a tu PC. | Descargar el universo. |
+| `git status` | Muestra qué archivos han cambiado. | El radar del estado actual. |
+| `git add [archivo]` | Mueve cambios al Staging Area. | Subir los actores al escenario. |
+| `git add .` | Mueve TODOS los cambios al Staging Area. | Subir a todo el elenco. |
+| `git commit -m "msg"` | Guarda los cambios staged en el historial. | **Tomar la foto.** |
+| `git log` | Muestra el historial de commits. | Leer el diario de bitácora. |
+| `git branch` | Lista o crea ramas. | Ver los universos paralelos. |
+| `git switch [rama]` | Cambia a otra rama. | Viajar a otro universo. |
+| `git merge [rama]` | Fusiona una rama en la actual. | Unir dos universos. |
+| `git restore [archivo]` | Deshace cambios locales. | Ctrl+Z recargado. |
+
 ---
-Las variables definidas dentro de una función son **locales**. Para modificar una variable global dentro de una función, debes declararla con `global`. Sin embargo, **evita usar variables globales** siempre que sea posible, ya que dificultan la depuración.
-+++
 
-```python
-contador = 0
+## Consejos Finales para Principiantes
 
-def incrementar():
-    global contador
-    contador += 1
+1.  **Haz commits pequeños y frecuentes**: No esperes a terminar todo el proyecto para hacer un commit. Haz commit cada vez que termines una pequeña tarea lógica (ej. "Terminar header", "Agregar botón", "Corregir estilo").
+2.  **No entres en pánico**: Si te equivocas, casi todo en Git es reversible.
+3.  **Lee los mensajes de error**: Git suele decirte exactamente qué hacer para solucionar el problema en el propio mensaje de error.
 
-incrementar()
-print(contador) # 1
-```
-
-### Ejercicio con Funciones
-
-Calculadora de precio total con lista de diccionarios:
-
-```python
-productos = [
-    {'nombre': 'Laptop', 'precio': 1000, 'cantidad': 1},
-    {'nombre': 'Mouse', 'precio': 20, 'cantidad': 2}
-]
-
-def calcular_total(lista_productos):
-    total = 0
-    for p in lista_productos:
-        total += p['precio'] * p['cantidad']
-    return total
-
-print(f"Total a pagar: ${calcular_total(productos)}") # 1040
-```
-
-
-## Retos de Programación: Estructuras de Datos y Funciones
-
-Pon a prueba tus conocimientos con estos 5 ejercicios diseñados para combinar colecciones y funciones.
-
-### 1. Gestor de Inventario
-**Objetivo**: Usar diccionarios y funciones.
-Crea un programa que gestione el stock de una tienda. Usa un diccionario donde la clave es el nombre del producto y el valor es la cantidad.
-Debes crear funciones para:
-- agregar_producto(nombre, cantidad): Si existe, suma la cantidad; si no, lo crea.
-- mostrar_inventario(): Imprime todos los productos y cantidades.
-
-**Pista**: Usa .get() o verifica con in.
-
-### 2. Análisis de Texto Único
-**Objetivo**: Usar conjuntos y métodos de cadenas.
-Escribe una función palabras_unicas(texto) que reciba un texto largo, lo convierta a minúsculas, elimine los signos de puntuación básicos y devuelva un conjunto con las palabras únicas presentes.
-
-**Ejemplo**:
-_Hola mundo, hola Python_ -> {'hola', 'mundo', 'python'}
-
-### 3. Procesador de Notas
-**Objetivo**: Listas de diccionarios y cálculos.
-Tienes una lista de estudiantes con sus respectivas notas.
-`python
-estudiantes = [
-    {'nombre': 'Ana', 'notas': [4.5, 3.8, 4.2]},
-    {'nombre': 'Luis', 'notas': [2.5, 3.0, 2.8]}
-]
-`
-Crea una función que recorra la lista y devuelva un nuevo diccionario donde la clave es el nombre del estudiante y el valor es el promedio de sus notas.
-
-### 4. Filtro de Contactos
-**Objetivo**: Tuplas y listas.
-Dada una lista de tuplas (Nombre, Teléfono), crea una función filtrar_por_prefijo(lista, prefijo) que devuelva una nueva lista con los contactos cuyo teléfono empiece por ese prefijo.
-
-`python
-contactos = [('Pedro', '300-123'), ('Ana', '310-456'), ('Juan', '300-789')]
-# filtrar_por_prefijo(contactos, '300') -> [('Pedro', '300-123'), ('Juan', '300-789')]
-`
-
-### 5. Recomendador de Películas
-**Objetivo**: Operaciones de conjuntos.
-Dos amigos tienen conjuntos de sus películas favoritas.
-`python
-amigo1 = {'Matrix', 'Avengers', 'Titanic'}
-amigo2 = {'Avengers', 'Avatar', 'Titanic'}
-`
-Crea funciones para encontrar:
-- **Coincidencias**: Películas que les gustan a ambos (Intersección).
-- **Novedades para amigo1**: Películas que le gustan al amigo 2 pero que el amigo 1 no ha visto (Diferencia).
-
+¡Felicidades! Ahora tienes el control del tiempo en tus manos. 🚀
