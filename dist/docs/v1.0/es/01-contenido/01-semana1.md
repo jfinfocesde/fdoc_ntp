@@ -1,6 +1,6 @@
 ---
 title: "Semana 1: Pacto Pedagógico"
-description: "Presentación e identificación de los retos empresariales para el Proyecto Integrador."
+description: "Presentación e identificación de los retos para el Proyecto Integrador"
 position: 1
 date: 2026-1-27
 ---

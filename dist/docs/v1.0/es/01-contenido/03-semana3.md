@@ -1,31 +1,28 @@
 ---
-title: "Semana 3 - Estructuras de Control y Ciclos"
-description: "Domina el flujo de tu programa con condicionales y bucles en Python."
+title: "Semana 3: Bases de Python para datos y Git"
+description: "Uso de condicionales y ciclos aplicados a reglas de calidad, funciones y manejo de errores. Introducción a Git."
 position: 3
 ---
+# Semana 3 - Estructuras de Control, Funciones y Git
 
-Domina el arte de dirigir el flujo de ejecución de tus programas. En esta semana aprenderás a tomar decisiones lógicas y a repetir tareas de manera eficiente.
+Domina el arte de dirigir el flujo de ejecución de tus programas y comienza tu camino con el control de versiones.
 
 +++cards
 ---
-columns: 2
+columns: 3
 items:
-  - title: "Condicionales"
+  - title: "Condicionales y Ciclos"
     icon: "GitBranchIcon"
-    content: "Toma decisiones con if, elif, else y match."
-    href: "#condicionales-toma-de-decisiones"
-  - title: "Ciclos"
-    icon: "RepeatIcon"
-    content: "Automatiza tareas repetitivas con for y while."
-    href: "#ciclos-repeticion-de-tareas"
-  - title: "Control Avanzado"
-    icon: "CpuIcon"
-    content: "Domina break, continue y el uso de else en bucles."
-    href: "#control-de-flujo-avanzado"
-  - title: "Ejercicios Resueltos"
+    content: "Toma decisiones y automatiza tareas repetitivas."
+    href: "#condicionales-toma-de-decision"
+  - title: "Funciones"
     icon: "CodeIcon"
-    content: "Aprende con casos reales: Login, Carrito, y más."
-    href: "#ejercicios-resueltos-casos-del-mundo-real"
+    content: "Bloques de código reutilizables y modulares."
+    href: "#funciones"
+  - title: "Introducción a Git"
+    icon: "TerminalIcon"
+    content: "Aprende a viajar en el tiempo con tu código."
+    href: "#que-es-git-y-por-que-usarlo"
 ---
 +++
 
@@ -371,257 +368,6 @@ while True:
 ```
 
 ---
-# Semana 4 - Estructuras de Datos y Funciones
-
-En esta semana profundizaremos en cómo organizar y manipular datos eficientemente en Python, y cómo estructurar tu código mediante funciones reutilizables.
-
-+++cards
----
-columns: 2
-items:
-  - title: "Listas"
-    icon: "ListIcon"
-    content: "Colecciones ordenadas y modificables."
-    href: "#listas"
-  - title: "Tuplas"
-    icon: "LockIcon"
-    content: "Colecciones ordenadas e inmutables."
-    href: "#tuplas"
-  - title: "Conjuntos"
-    icon: "ArchiveIcon"
-    content: "Colecciones sin orden y sin duplicados."
-    href: "#conjuntos"
-  - title: "Diccionarios"
-    icon: "KeyIcon"
-    content: "Estructuras clave-valor para acceso rápido."
-    href: "#diccionarios"
-  - title: "Funciones"
-    icon: "CodeIcon"
-    content: "Bloques de código reutilizables."
-    href: "#funciones"
----
-+++
-
-```video
----
-src: "https://vimeo.com/1164222787?share=copy&fl=sv&fe=ci"
-title: "Estructuras de Datos y Funciones"
----
-```
-
-## Estructuras de datos - Colecciones en Python
-
-En Python, una colección es una estructura de datos que puede almacenar varios elementos. 
-
-+++admonition
----
-type: note
-title: "Tipos de Colecciones"
----
-- **Listas**: Ordenadas, modificables, permiten duplicados.
-- **Tuplas**: Ordenadas, **inmutables**, permiten duplicados.
-- **Conjuntos**: **No ordenados**, no indexados, **sin duplicados**.
-- **Diccionarios**: Pares clave-valor, modificables (v3.7+ ordenados por inserción).
-+++
-
-### Listas
-
-Una lista es una colección ordenada y modificable. Permite almacenar elementos de diferentes tipos.
-
-```python
-# Creación y acceso
-my_list = [1, 2, 3, 'cuatro', 'cinco']
-print(my_list[0])  # Salida: 1
-```
-
-+++admonition
----
-type: tip
-title: "Métodos Útiles"
----
-Las listas tienen métodos poderosos integrados:
-- `.append(x)`: Agrega al final.
-- `.insert(i, x)`: Inserta en posición `i`.
-- `.remove(x)`: Elimina el primer `x`.
-- `.pop([i])`: Elimina y devuelve el elemento en `i` (o el último).
-- `.sort()`: Ordena la lista in-situ.
-+++
-
-**Ejemplo completo de operaciones:**
-
-```python
-mylist = [1, 2, "tres", 4.5]
-
-# Modificar
-mylist[2] = 3
-print(mylist) # [1, 2, 3, 4.5]
-
-# Agregar
-mylist.append(5)
-
-# Eliminar
-del mylist[0] 
-```
-
-#### Ejercicios de Listas
-
-1. **Números Pares**: Filtrar una lista para obtener solo los pares.
-
-```python
-def numeros_pares(lista):
-    return [num for num in lista if num % 2 == 0]
-
-print(numeros_pares([1, 2, 3, 4, 5, 6])) # [2, 4, 6]
-```
-
-#### Iterando Listas
-
-+++tabs
----[tab title="Bucle For" lang="python"]---
-frutas = ["manzana", "banana", "cereza"]
-for fruta in frutas:
-    print(fruta)
----[tab title="Con índice (enumerate)" lang="python"]---
-frutas = ["manzana", "banana", "cereza"]
-for i, fruta in enumerate(frutas):
-    print(f"{i}: {fruta}")
----[tab title="Range y Len" lang="python"]---
-frutas = ["manzana", "banana", "cereza"]
-for i in range(len(frutas)):
-    print(frutas[i])
----[tab title="Comprensión de Listas" lang="python"]---
-# Crear una nueva lista de una sola línea
-cuadrados = [x**2 for x in range(10)]
-print(cuadrados)
----
-+++
-
-### Tuplas
-
-Colecciones ordenadas e **inmutables**. Una vez creadas, no puedes cambiar su contenido.
-
-+++comparison-table
----
-headers:
-  - "Característica"
-  - { text: "Lista", highlight: false }
-  - { text: "Tupla", highlight: true }
-rows:
-  - ["Sintaxis", "[]", "()"]
-  - ["Mutable", "Sí", "**No**"]
-  - ["Velocidad", "Normal", "Más rápida"]
-  - ["Uso", "Datos dinámicos", "Datos constantes protegidos"]
----
-+++
-
-```python
-mi_tupla = (1, 2, 'tres')
-# mi_tupla[0] = 5  # ¡Error! TypeError
-```
-
-+++admonition
----
-type: warning
-title: "Inmutabilidad"
----
-Si intentas modificar una tupla (`t[0] = x`), Python lanzará un error. Si necesitas modificarla, primero debes convertirla a lista: `list(tupla)`, modificarla y volver a convertir: `tuple(lista)`.
-+++
-
-#### Iterando Tuplas
-
-Las tuplas se iteran de forma idéntica a las listas.
-
-```python
-mi_tupla = (10, 20, 30)
-for numero in mi_tupla:
-    print(numero)
-```
-
-### Conjuntos
-
-Colecciones no ordenadas y **sin elementos duplicados**. Son ideales para operaciones de conjuntos matemáticos y eliminar duplicados.
-
-```python
-# Eliminando duplicados automáticamente
-numeros = [1, 2, 2, 3, 4, 4, 5]
-conjunto_unicos = set(numeros)
-print(conjunto_unicos) # {1, 2, 3, 4, 5}
-```
-
-+++admonition
----
-type: info
-title: "Operaciones de Conjuntos"
----
-- **Unión (`|` o `.union()`)**: Elementos en A o B.
-- **Intersección (`&` o `.intersection()`)**: Elementos en A y B.
-- **Diferencia (`-` o `.difference()`)**: Elementos en A pero no en B.
-+++
-
-```python
-a = {1, 2, 3}
-b = {3, 4, 5}
-
-print(a.union(b))        # {1, 2, 3, 4, 5}
-print(a.intersection(b)) # {3}
-```
-
-#### Iterando Conjuntos
-
-+++admonition
----
-type: note
-title: "Nota sobre el Orden"
----
-Recuerda que los conjuntos **no tienen orden garantizado**. Al iterarlos, los elementos pueden aparecer en cualquier secuencia.
-+++
-
-```python
-colores = {"rojo", "verde", "azul"}
-for color in colores:
-    print(color)
-```
-
-### Diccionarios
-
-Almacenan datos en pares `clave: valor`. El acceso es muy rápido a través de la clave.
-
-```python
-usuario = {
-    'nombre': 'Juan',
-    'edad': 30,
-    'rol': 'admin'
-}
-
-print(usuario['nombre']) # Juan
-```
-
-#### Iterando Diccionarios
-
-Existen varias formas de recorrer un diccionario:
-
-+++tabs
----[tab title="Por Claves" lang="python"]---
-# Itera sobre las claves (por defecto)
-for clave in usuario:
-    print(clave)
-# 'nombre', 'edad', 'rol'
----[tab title="Por Valores" lang="python"]---
-# Itera solo sobre los valores
-for valor in usuario.values():
-    print(valor)
-# 'Juan', 30, 'admin'
----[tab title="Por Ambos" lang="python"]---
-# Itera sobre clave y valor al tiempo
-for clave, valor in usuario.items():
-    print(f"{clave}: {valor}")
----[tab title="Comprensión de Diccionarios" lang="python"]---
-# Crear un nuevo diccionario transformando datos
-cuadrados = {x: x**2 for x in range(5)}
-print(cuadrados)
-# {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
----
-+++
 
 ## Funciones
 
@@ -681,6 +427,7 @@ def calcular_total(lista_productos):
 print(f"Total a pagar: ${calcular_total(productos)}") # 1040
 ```
 
+---
 
 ## Retos de Programación: Estructuras de Datos y Funciones
 
@@ -689,15 +436,13 @@ Pon a prueba tus conocimientos con estos 5 ejercicios diseñados para combinar c
 ### 1. Gestor de Inventario
 **Objetivo**: Usar diccionarios y funciones.
 Crea un programa que gestione el stock de una tienda. Usa un diccionario donde la clave es el nombre del producto y el valor es la cantidad.
-Debes crear funciones para:
-- agregar_producto(nombre, cantidad): Si existe, suma la cantidad; si no, lo crea.
-- mostrar_inventario(): Imprime todos los productos y cantidades.
+Debes crear funciones para cargar y mostrar el inventario.
 
 **Pista**: Usa .get() o verifica con in.
 
 ### 2. Análisis de Texto Único
 **Objetivo**: Usar conjuntos y métodos de cadenas.
-Escribe una función palabras_unicas(texto) que reciba un texto largo, lo convierta a minúsculas, elimine los signos de puntuación básicos y devuelva un conjunto con las palabras únicas presentes.
+Escribe una función `palabras_unicas(texto)` que reciba un texto largo, lo convierta a minúsculas, elimine los signos de puntuación básicos y devuelva un conjunto con las palabras únicas presentes.
 
 **Ejemplo**:
 _Hola mundo, hola Python_ -> {'hola', 'mundo', 'python'}
@@ -732,3 +477,61 @@ amigo2 = {'Avengers', 'Avatar', 'Titanic'}
 Crea funciones para encontrar:
 - **Coincidencias**: Películas que les gustan a ambos (Intersección).
 - **Novedades para amigo1**: Películas que le gustan al amigo 2 pero que el amigo 1 no ha visto (Diferencia).
+
+---
+
+## ¿Qué es Git y Por Qué Usarlo?
+
+Imagínate que Git es una **máquina del tiempo** para tu código. Te permite guardar "fotos" de tu proyecto en diferentes momentos y volver a ellas si algo sale mal.
+
+### Conceptos Clave
+
+1.  **Directorio de Trabajo**: Tu carpeta actual.
+2.  **Staging Area (Área de Preparación)**: El escenario antes de tomar la foto.
+3.  **Repositorio (.git)**: El álbum de fotos definitivo.
+
++++mermaid
+graph LR
+    A[Directorio de Trabajo] -- git add --> B[Staging Area]
+    B -- git commit --> C[Repositorio .git]
++++
+
+### Configuración Inicial: Tu Identidad
+
+Ejecuta estos comandos en tu terminal una sola vez:
+
+```bash
+git config --global user.name "Tu Nombre"
+git config --global user.email "tu_email@ejemplo.com"
+```
+
+### El Ciclo de Vida: Tus Primeros Comandos
+
+1.  **`git init`**: Inicializa un repositorio.
+2.  **`git status`**: Mira el estado de tus archivos.
+3.  **`git add .`**: Prepara todos los archivos para la foto.
+4.  **`git commit -m "Mensaje"`**: Toma la foto final.
+5.  **`git log`**: Mira el historial de tus fotos.
+
+### Ramas (Branches): Universos Paralelos
+
+Las ramas te permiten experimentar sin miedo a romper la versión principal (`main`) de tu código.
+
+```bash
+git branch nueva-funcionalidad  # Crear
+git switch nueva-funcionalidad  # Viajar
+git merge nueva-funcionalidad   # Fusionar
+```
+
+---
+
+## Resumen de Comandos de Git
+
+| Comando | Acción |
+| :--- | :--- |
+| `git init` | Empieza un repo local. |
+| `git add .` | Prepara archivos. |
+| `git commit -m` | Guarda cambios. |
+| `git status` | Revisa el estado. |
+| `git log` | Mira el historial. |
+| `git switch -c` | Crea y cambia de rama. |
