@@ -1,5 +1,5 @@
 ---
-title: "Pandas - Manipulación de Datos en Python"
+title: "Semana 7: Carga de Datos en Pandas"
 position: 7
 ---
 
