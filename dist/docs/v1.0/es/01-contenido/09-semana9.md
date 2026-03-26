@@ -1,7 +1,7 @@
 ---
 title: "Semana 9: Manipulación de Datos con Pandas"
 position: 9
-draft: true
+draft: false
 ---
 
 [Documentación Oficial de Pandas](https://pandas.pydata.org/docs/index.html) 
