@@ -168,15 +168,40 @@ Unir tablas es como un rompecabezas. Tienes una columna "puente" (ID) que conect
 > - **INNER Join:** Solo mantiene a los que aparecen en AMBAS tablas. Si un empleado no tiene bono, desaparece del reporte. Si un bono no tiene empleado, también desaparece.
 
 ```python
-# Unimos Empleados con sus Bonos
-# how='left' asegura que ningún empleado sea borrado del reporte final
-df_unido = pd.merge(df_empleados, df_bonos, on='nombre', how='left')
+import pandas as pd
 
-# Limpieza post-unión: Los que no tenían bono aparecen como NaN. Ponemos 0.
-df_unido['bono'] = df_unido['bono'].fillna(0)
+# 1. Tabla de Empleados (Nuestra base principal)
+df_empleados = pd.DataFrame({
+    'id_emp': [1, 2, 3, 4],
+    'nombre': ['Ana', 'Beto', 'Carla', 'David'],
+    'depto': ['Ventas', 'IT', 'Ventas', 'RRHH']
+})
+
+# 2. Tabla de Bonos (Información complementaria)
+# Nota: David (id 4) no tiene bono, y hay un bono (id 5) que no pertenece a nadie.
+df_bonos = pd.DataFrame({
+    'id_emp': [1, 2, 3, 5],
+    'monto_bono': [500, 300, 400, 150]
+})
+
+# --- DIFERENTES TIPOS DE UNIÓN ---
+
+# A. LEFT JOIN: Mantiene a TODOS los empleados (Recomendado para reportes base)
+# David aparece con bono NaN. El bono con id 5 se pierde.
+df_left = pd.merge(df_empleados, df_bonos, on='id_emp', how='left')
+
+# B. INNER JOIN: Solo los que coinciden en AMBOS mundos
+# David desaparece porque no tiene bono.
+df_inner = pd.merge(df_empleados, df_bonos, on='id_emp', how='inner')
+
+# C. OUTER JOIN: No se pierde nada (Trae todo de ambos lados)
+# David tiene bono NaN, y el bono 5 tiene datos de empleado NaN.
+df_outer = pd.merge(df_empleados, df_bonos, on='id_emp', how='outer')
+
+# TIP: Rellenar los nulos después de unir
+df_left['monto_bono'] = df_left['monto_bono'].fillna(0)
 ```
+
 
 ---
 
-## 🚀 ¡Todo listo!
-Ahora que entiendes la lógica profunda de la limpieza y la agregación, estás listo para aplicarlo en el **[Proyecto: Dashboard Aroma & Grano](04-actividad-guiada.md)**.
