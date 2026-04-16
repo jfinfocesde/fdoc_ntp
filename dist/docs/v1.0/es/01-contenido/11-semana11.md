@@ -196,26 +196,56 @@ print(df_inventario)
 
 ---
 
-## Fase 6: Laboratorio de Retos de Calidad de Datos
+## Fase 6: Ejercicios Resueltos de Calidad de Datos
 
-**Instrucciones para el estudiante:** Usa el DataFrame `df_inventario` (en su estado original "sucio", justo después de cargarlo en la Fase 2) e intenta aplicar los filtros de limpieza necesarios para responder a los requerimientos del jefe de laboratorio.
+A continuación, se presentan las soluciones paso a paso para los requerimientos del jefe de laboratorio, aplicados al DataFrame `df_inventario`.
 
-**Reto 1: Salvando los ID Perdidos**
-En lugar de eliminar la fila que no tiene `id_componente` (el Sensor de Humedad), rellena ese valor nulo con el texto "ID_PENDIENTE". 
-*Pista:* Explora el método `.fillna()`.
+### Ejercicio 1: Salvando los ID Perdidos
+En lugar de eliminar la fila que no tiene `id_componente`, rellenamos ese valor nulo con el texto `"ID_PENDIENTE"`.
+```python
+# .fillna() reemplaza los valores NaN por el valor especificado
+df_inventario['id_componente'] = df_inventario['id_componente'].fillna('ID_PENDIENTE')
+print("ID recuperados:")
+print(df_inventario[['id_componente', 'nombre_equipo']].head(7))
+```
 
-**Reto 2: Recuperando Fechas Inválidas**
-Notaste que la fecha ingresada como "Hoy" se convirtió en `NaT` (nulo) al forzar el datetime. Crea una línea de código que busque en la columna `fecha_ingreso` los valores nulos (`.isna()`) y los reemplace con la fecha actual del sistema.
+### Ejercicio 2: Recuperando Fechas Inválidas
+Reemplazamos las fechas nulas (como la que se convirtió en `NaT` por haber dicho "Hoy") por la fecha actual del sistema.
+```python
+from datetime import datetime
 
-**Reto 3: Estandarización Avanzada de Texto**
-Además de pasar el `estado_actual` a minúsculas, el laboratorio te pide que cambies todas las palabras "dañado" por "inactivo". 
-*Pista:* Usa `.str.replace('dañado', 'inactivo')` después de haberlo pasado a minúsculas.
+# Buscamos las fechas nulas y aplicamos la fecha actual en formato YYYY-MM-DD
+fecha_actual = pd.to_datetime(datetime.now().strftime('%Y-%m-%d'))
+df_inventario['fecha_ingreso'] = df_inventario['fecha_ingreso'].fillna(fecha_actual)
+print("\nFechas inválidas recuperadas:")
+print(df_inventario[['nombre_equipo', 'fecha_ingreso']].head(7))
+```
 
-**Reto 4: Filtrado Post-Limpieza**
-Una vez que hayas limpiado los precios convirtiéndolos a números enteros, genera un nuevo DataFrame llamado `equipos_costosos` que solo contenga los componentes cuyo `precio_cop` sea estrictamente mayor a 30000 COP, y que estén en estado "activo".
+### Ejercicio 3: Estandarización Avanzada de Texto
+Después de haber pasado `estado_actual` a minúsculas, reemplazamos todas las ocurrencias de `"dañado"` por `"inactivo"`.
+```python
+# Ya lo habíamos pasado a minúsculas: df_inventario['estado_actual'] = df_inventario['estado_actual'].str.lower()
+df_inventario['estado_actual'] = df_inventario['estado_actual'].str.replace('dañado', 'inactivo')
+print("\nEstados estandarizados:")
+print(df_inventario[['nombre_equipo', 'estado_actual']].head(5))
+```
 
-**Reto 5: Limpieza de Categorías Ocultas**
-Verifica si existen espacios en blanco accidentales en la columna `categoria`. Si existe una categoría llamada `" Sensor"` (con espacio al inicio) y otra `"Sensor"`, Pandas las verá como distintas. Aplica `.str.strip()` a toda esa columna para prevenir errores futuros.
+### Ejercicio 4: Filtrado Post-Limpieza
+Generamos un nuevo DataFrame `equipos_costosos` con componentes cuyo `precio_cop` sea estrictamente mayor a 30000 COP y que estén "activos".
+```python
+# Filtro con doble condición usando el operador & (AND)
+equipos_costosos = df_inventario[(df_inventario['precio_cop'] > 30000) & (df_inventario['estado_actual'] == 'activo')].copy()
+print("\nEquipos costosos y activos:")
+print(equipos_costosos[['nombre_equipo', 'precio_cop', 'estado_actual']])
+```
+
+### Ejercicio 5: Limpieza de Categorías Ocultas
+Aplicamos `.str.strip()` a toda la columna `categoria` para eliminar los espacios en blanco accidentales que podrían crear redundancias (ej. `" Sensor"` vs `"Sensor"`).
+```python
+df_inventario['categoria'] = df_inventario['categoria'].str.strip()
+print("\nCategorías limpias, frecuencia de datos:")
+print(df_inventario['categoria'].value_counts())
+```
 
 
 
@@ -441,28 +471,120 @@ df_limpio = df[df['empleados'] > 20].copy()
 
 ---
 
-## Fase 5: Laboratorio de Retos "EcoGestión"
+## Fase 5: Ejercicios Resueltos "EcoGestión"
 
-Es hora de poner a prueba la lógica aprendida. Lee cada requerimiento gerencial e intenta deducir el código necesario. *(Las pistas están disponibles si te atascas).*
+A continuación, se presenta la solución detallada y explicada a cada requerimiento gerencial utilizando las lógicas de extracción de Pandas.
 
-**Reto 1: Las "Peligrosas"**
-Necesitamos un listado urgente con el nombre y municipio de las empresas que tienen un `riesgo_ambiental` catalogado como 'Alto' **Y** que **NO** tengan certificación ISO 14001.
-> **Pista:** Usa el operador `&` y la negación `~` para el booleano (o `== False`).
+### Ejercicio 1: Las "Peligrosas"
+Necesitamos empresas con rango de `riesgo_ambiental` 'Alto' **Y** que **NO** tengan certificación ISO 14001.
+```python
+# Usamos el operador & para AND, y ~ para la negación en la columna booleana.
+empresas_peligrosas = df[(df['riesgo_ambiental'] == 'Alto') & (~df['certificacion_iso14001'])]
+print("Empresas de alto riesgo sin ISO 14001:")
+print(empresas_peligrosas[['nombre', 'municipio']])
+```
 
-**Reto 2: Inconsistencias Financieras**
-Encuentra las empresas que afirman tener procesos industriales pesados (su subsector es 'Tintorería' **O** 'Estampado') pero que tienen un `presupuesto_ambiental_cop` menor a 5 millones (5000000). Muestra toda la fila de estas empresas.
-> **Pista:** Necesitarás paréntesis para agrupar el `|` (OR) de los subsectores, y luego un `&` (AND) para la condición del presupuesto. Alternativamente, usa `.isin()` para los subsectores.
+### Ejercicio 2: Inconsistencias Financieras
+Buscamos empresas con subsector 'Tintorería' **o** 'Estampado' cuyo `presupuesto_ambiental_cop` sea menor a 5.000.000.
+```python
+# Usamos .isin() para la opción múltiple del subsector, junto con el operador &
+inconsistencias = df[(df['subsector'].isin(['Tintorería', 'Estampado'])) & (df['presupuesto_ambiental_cop'] < 5000000)]
+print("\nInconsistencias Financieras detectadas:")
+print(inconsistencias)
+```
 
-**Reto 3: Análisis por Municipio**
-¿Cuáles son las empresas de **Medellín** o **Bello** que emiten más de 10 toneladas de CO2 (`emisiones_co2_ton`)? Resuelve este ejercicio utilizando explícitamente el método `.query()`.
-> **Pista:** En `.query()`, puedes usar `in` para verificar si un valor está en una lista: `municipio in ['Medellín', 'Bello']`.
+### Ejercicio 3: Análisis por Municipio usando Query
+Buscamos empresas de **Medellín** o **Bello** con emisiones de CO2 mayores a 10 toneladas, utilizando el poderoso método `.query()`.
+```python
+# .query() permite escribir la condición como si fuera texto de SQL o Python simple.
+analisis_municipal = df.query("municipio in ['Medellín', 'Bello'] and emisiones_co2_ton > 10")
+print("\nEmisiones altas en Medellín y Bello:")
+print(analisis_municipal[['nombre', 'municipio', 'emisiones_co2_ton']])
+```
 
-**Reto 4: Búsqueda Ciega**
-A veces los inspectores no usan las palabras exactas. Encuentra todas las empresas cuyo comentario del inspector contenga variaciones de la palabra "alerta" o la palabra "químicos" (puede estar en mayúsculas o minúsculas).
-> **Pista:** Usa `.str.contains('alerta|químic', case=False, na=False)`.
+### Ejercicio 4: Búsqueda Ciega (Expresiones Regulares Simples)
+Buscamos empresas cuyo comentario contenga variantes de "alerta" o "químicos", omitiendo si están en mayúsculas o minúsculas.
+```python
+# .str.contains() junto con el operador lógico OR (|) en formato texto, case=False lo hace insensible a mayúsculas
+busqueda_ciega = df[df['comentarios_inspector'].str.contains('alerta|químic', case=False, na=False)]
+print("\nInspectores levantaron alertas o advertencias químicas en:")
+print(busqueda_ciega[['nombre', 'comentarios_inspector']])
+```
 
-**Reto 5: Preparación de Datos Limpios**
-Crea un nuevo DataFrame llamado `df_oficial` que excluya a las empresas con menos de 20 empleados. Asegúrate de que este nuevo DataFrame sea completamente independiente para evitar el `SettingWithCopyWarning`.
-> **Pista:** Recuerda el `.copy()` al final de tu máscara booleana.
+### Ejercicio 5: Preparación de Datos Limpios
+Creamos un nuevo DataFrame `df_oficial` excluyendo empresas con menos de 20 empleados (es decir, seleccionando las de >= 20), usando `.copy()` para aislar la variable en la memoria.
+```python
+# .copy() previene el SettingWithCopyWarning de Pandas.
+df_oficial = df[df['empleados'] >= 20].copy()
+print(f"\nDataFrame Oficial consolidado con {len(df_oficial)} empresas.")
+```
+
+---
+
+## Taller Práctico 3: Creación y Análisis Exploratorio de Datos (EDA) (Refuerzo Semanas 7 y 8)
+
+Para consolidar el aprendizaje de la manipulación de arreglos y la lectura analítica (EDA), vamos a crear un conjunto de datos desde cero sobre "Incidencias de red" y a explorar sus valores sin modificar una sola fila.
+
+### Fase 1: Creación del DataFrame de Análisis
+
+Para comenzar, construiremos un log de incidencias uniendo diccionarios de Python y listas. Esto emula la construcción de un archivo procesado listo para inspeccionar.
+
+```python
+import pandas as pd
+
+# Creación de datos usando un diccionario con Listas de Python
+datos_red = {
+    'Fecha': ['2026-03-01', '2026-03-01', '2026-03-02', '2026-03-02', '2026-03-03'],
+    'Sistema': ['Router_Core', 'Switch_Piso1', 'Firewall_Main', 'Router_Core', 'Switch_Piso2'],
+    'Severidad': ['Alta', 'Baja', 'Critica', 'Media', 'Baja'],
+    'Duracion_Mins': [45, 10, 120, 20, 15],
+    'Tecnico': ['Carlos', 'Ana', 'Carlos', 'Luis', 'Ana']
+}
+
+# Transformación de los datos a DataFrame
+df_incidencias = pd.DataFrame(datos_red)
+print("--- DATAFRAME DE INCIDENCIAS CREADO ---")
+print(df_incidencias)
+```
+
+### Fase 2: Inspección Estructural (Semanas 7 y 8)
+Usaremos las herramientas integradas para conocer el tamaño y distribución de tipos de datos. Estas observaciones puras nos servirán de guía antes de modelar bases de datos.
+
+```python
+print("\n1. Información Estructural (df.info()):")
+df_incidencias.info()
+
+print("\n2. Observación de Muestra Aleatoria (df.sample(2)):")
+# .sample(n) escoge 'n' filas al azar, ideal para no solo ver lo del inicio/final.
+print(df_incidencias.sample(2))
+```
+
+### Fase 3: Sondeo de Categorías y Generación de Frecuencias
+A veces necesitamos saber **cuántas incidencias** hay por nivel de severidad. Las herramientas de estadística nos ayudan a ver esto.
+
+```python
+print("\n3. Distribución de Niveles de Severidad (value_counts):")
+# value_counts() suma cuántas ocurrencias hay de cada categoría única en la columna.
+print(df_incidencias['Severidad'].value_counts())
+
+print("\n4. Listado Único de Sistemas Involucrados (unique):")
+print(df_incidencias['Sistema'].unique())
+```
+
+### Fase 4: Estadísticas Descriptivas (Semana 8)
+Analizamos la duración (una columna de números), calculando la media, mínimo y el sumatorio agrupado por técnicos para saber quién trabajó más tiempo atendiendo los eventos.
+
+```python
+print("\n5. Perfil Numérico (describe) de Duración de Incidencias:")
+# Genera métricas clave solo de las columnas numéricas.
+print(df_incidencias.describe())
+
+print("\n6. Relación Agrupada: Tiempo total de resolución por Técnico (groupby):")
+# En el modo EDA, queremos sumar el tiempo que tardó cada elemento.
+tiempo_tecnicos = df_incidencias.groupby('Tecnico')['Duracion_Mins'].sum()
+print(tiempo_tecnicos)
+```
+
+Con la finalización de estos talleres solucionados, tienes en conocimiento completo del flujo del análisis que comprende desde la creación/lectura, al saneamiento, los filtrados lógicos y finalmente el Análisis Exploratorio de Datos (EDA).
 
 ---
